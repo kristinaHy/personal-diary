@@ -1,0 +1,63 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/diary.css' %}" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <meta charset="utf-8">
+    <title>
+      {% block title %}
+        Diary
+      {% endblock %}
+    </title>
+  </head>
+
+  <body>
+    <div class="page_header">
+        {% if user.is_authenticated %}
+          <h1>
+            <a href="/">
+              <img src="{% static 'img/diary.jpg' %}" alt="Personal Diary" width="70px" />
+            </a>
+            <a href="{% url 'post-list' %}">{{ request.user.first_name }}'s Diary</a></h1>
+          
+          <!-- Logout Button -->
+          <form action="{% url 'logout' %}" method="post" class="top_menu">
+            {% csrf_token %}
+            <button type="submit" class="link">
+    
+              <span class="material-symbols-outlined lg-icons">Logout </span>
+    
+            </button>
+    
+          </form>
+        
+          
+          
+        {% else %}
+          <h1><a href="/">Welcome!</a></h1>
+          <!-- Login Button -->
+          <a href="{% url 'login' %}" class="top_menu btn btn-primary">Login</a>
+          <!-- Sign Up Button -->
+          <a href="{% url 'signup' %}" class="top_menu btn btn-success">Sign Up</a>
+        {% endif %}
+    </div>
+
+    {% if user.is_authenticated %}
+      <!-- New Post Button -->
+      
+      <a href="{% url 'post-new' %}" class="new"><span class="glyphicon glyphicon-plus"></span>ADD</a>
+    {% endif %}
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  </body>
+
+</html>
+

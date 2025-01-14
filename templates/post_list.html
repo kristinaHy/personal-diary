@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>{{ message }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+
+{% for post in posts %}
+<div class="post_list">
+    <h1><a href="{% url 'post-detail' pk=post.pk %}">{{ post.title }}</a></h1>
+    <div class="date"><span class="glyphicon glyphicon-calendar"></span> {{ post.date }}</div>
+    <p>
+        {% if post.text|length > 200 %}
+            {{ post.text|slice:":200" }}... 
+            <a href="{% url 'post-detail' pk=post.pk %}">View More</a>
+        {% else %}
+            {{ post.text|linebreaksbr }}
+        {% endif %}
+    </p>
+</div>
+{% endfor %}
+{% endblock %}
+
